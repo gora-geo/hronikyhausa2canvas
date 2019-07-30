@@ -1,1 +1,1 @@
-# hronikyhausa2canvas
+# wfcanvas

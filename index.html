@@ -1,0 +1,532 @@
+<!doctype html> 
+<html lang="en"> 
+<head> 
+    <meta charset="UTF-8" />
+    <title>Making your first Phaser 3 Game - Part 3</title>
+    <script src="//cdn.jsdelivr.net/npm/phaser@3.18.1/dist/phaser.js"></script>
+    <style type="text/css">
+        body {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+    
+<!--
+    <div id="bacgraund2">
+    <img src="sprites/5.jpg" alt="Письма мастера дзен"
+style="
+position: absolute;
+    z-index: 0;
+        opacity: 0.5; /* Полупрозрачность элемента */
+" 
+    >
+
+</div>
+-->
+
+<script type="text/javascript">
+
+  var config = {
+      /*
+    type: Phaser.AUTO,
+    backgroundColor: '#2dab2d',
+    scale: {
+        mode: Phaser.Scale.WIDTH_CONTROLS_HEIGHT,
+        _parent: 'phaser-example',
+        width: 768,
+        height: 1024
+    },
+    */
+      
+       type: Phaser.AUTO,
+    backgroundColor: '#00000',
+    
+    scale: {
+        mode: Phaser.Scale.FIT,
+        parent: 'phaser-example',
+        autoCenter: Phaser.Scale.CENTER_BOTH,
+        width: 768,
+        height: 1024,
+        zoom: 2
+    },
+
+    
+      /* 
+   var config = {
+    type: Phaser.AUTO,
+       
+       */
+    width: 768,
+    height: 1024,
+    
+      physics: {  /* подключение Arcade Physics, поддержку физики*/
+        default: 'arcade',
+        arcade: {
+            gravity: { y: 0 },
+            debug: false
+        }
+    },
+   
+    
+   /*
+     physics: {
+        default: 'matter',
+        matter: {
+            gravity: {
+                x: 0,
+                y: 0
+            }
+        }
+    },
+*/
+    scene: {
+        preload: preload,
+        create: create,
+        update: update
+    }
+};
+var girl;
+var zlo0 = "null";
+var zlo1= "null";
+var zlo2 = "null";
+var pk = 0;
+    var girl;
+var timedEvent;
+var platforms;
+    var strelka;
+    var t = 0;
+    var s = 0;
+    var c;
+    var q=0;
+    var p=1;
+    var l = 0;
+    var ll = 710;
+
+    var game = new Phaser.Game(config);
+
+    function preload ()
+    {
+        /*загружаем данные в загрузчик */
+        this.load.image('backgraund', 'sprites/1_0000s_0005_bg.jpg');
+        this.load.image('girl', 'sprites/1_0000s_0001s_0000_Layer-981.png');
+        this.load.image('labal1', 'sprites/1_0000s_0002_Group-9.png');
+        this.load.image('krug', 'sprites/1.png');
+        this.load.image('krug2', 'sprites/1.png');
+        this.load.image('strelka', 'sprites/1_0000_arrowdown.png');
+        this.load.image('boy1', 'sprites/Untitled-1_0000_Garen1.png');
+        this.load.image('meh', 'sprites/Untitled-1_0001_Hand_L_3--copy.png');
+        this.load.image('molniya', 'sprites/ligtn.png');
+
+        this.load.image('boy2', 'sprites/Untitled-1_0000_garen2.png');
+        this.load.image('meh2', 'sprites/Untitled-1_0001_Layer-3.png');
+
+        this.load.image('zlobos', 'sprites/1_0000s_0003_Group-8-copy.png');
+
+        this.load.image('zlo0', 'sprites/1_0000s_0002s_0001_Layer-100.png');
+        this.load.image('zlo1', 'sprites/1_0000s_0002s_0000_Group-2.png');
+        this.load.image('zlo2', 'sprites/1_0000s_0002s_0002.png');
+        this.load.image('zvezda0', 'sprites/lightred.png');
+        this.load.image('zvezda1', 'sprites/lightred.png');
+        this.load.image('zvezda2', 'sprites/lightred.png');
+        this.load.image('livzlo', 'sprites/1_0000s_0003s_0001_Layer-101-copy.png');
+        this.load.image('livzlo2', 'sprites/1_0000s_0003s_0000_Rectangle-1-copy.png');
+
+        this.load.image('livboy', 'sprites/1_0000s_0000s_0001_Rectangle-2.png');
+        this.load.image('livboy2', 'sprites/1_0000s_0000s_0000_Rectangle-1-copy.png');
+
+        this.load.image('popedabg', 'sprites/1_0001s_0002_butterfly2.png');
+        this.load.image('popedalb', 'sprites/1_0001s_0001_You-are--a-Winner!.png');
+        this.load.image('popedabutton', 'sprites/1_0001s_0000_Install-now.png');
+
+         this.load.image('gvbg', 'sprites/1_0000s_0002_d6.png');
+        this.load.image('gvlb', 'sprites/1_0000s_0000_I-did-my-best!.png');
+        this.load.image('gvbutton', 'sprites/1_0000s_0001_button.png');
+
+
+
+
+
+
+
+
+        
+        
+
+     
+    }
+
+    function create ()
+    {
+        
+        
+        /*создаем размешаем фон координаты указаны по центру но можно по верхенму левому --
+        this.add.image(0, 0, 'sky').setOrigin(0, 0)*/
+/*
+        platforms = this.physics.add.staticGroup();
+        platforms.create(0, 703, 'girl').setOrigin(0, 0);
+*/
+        bg=this.add.image(0, 0, 'backgraund').setOrigin(0, 0);
+
+   
+
+
+        krug =  this.physics.add.sprite(-30, 731, 'krug').setOrigin(0, 0).setInteractive();
+         krug.alpha = 0;
+         
+      girl= this.add.image(0, 703, 'girl').setOrigin(0, 0);
+      
+
+
+        meh  =  this.add.image(240, 668, 'meh').setOrigin(0, 0);
+        boy = this.add.image(90, 740, 'boy1').setOrigin(0, 0);
+
+
+      
+        
+      label =  this.add.image(130, 469, 'labal1').setOrigin(0, 0);
+      
+        
+       strelka =  this.add.image(320, 670, 'strelka').setOrigin(0, 0);
+       
+       krug2 = this.add.image(-30, 731, 'krug2').setOrigin(0, 0);
+    popedabg = this.add.image(0, 0, 'popedabg').setOrigin(0, 0);
+ popedalb = this.add.image(240, 200, 'popedalb').setOrigin(0, 0);
+ popedabutton = this.add.image(155, 745, 'popedabutton').setOrigin(0, 0).setInteractive();
+molniya = this.add.image(0, 0, 'molniya').setOrigin(0, 0);
+molniya.alpha = 0;
+
+
+
+popedabg.alpha = 0;
+popedabutton.alpha = 0;
+popedalb.alpha = 0;
+
+popedabutton.on('pointerdown', function (pointer) {
+	console.log("huy");
+	document.location.href = "https://play.google.com/store/apps/details?id=com.nexters.herowars&hl=ru";
+});
+
+   
+	var line = new Phaser.Geom.Line(ll, 30, 710, 30);
+    var graphics = this.add.graphics({ lineStyle: { width: 4, color: 0xaa00aa } });
+    graphics.strokeLineShape(line);
+
+ 
+
+       krug.on('pointerdown', function (pointer) {
+       	console.log("huy");
+
+       	if (p<7){
+p=p+1;
+
+console.log("p==",p);
+         
+meh.angle=meh.angle-15;
+meh.x=meh.x-45;
+molniya.alpha = 1;
+setTimeout(function(){
+    console.log("down");
+meh.angle=meh.angle+15;
+meh.x=meh.x+45;
+molniya.alpha = 0;
+    ;},100);/*создание врагачрез 5 сек*/
+
+  if (c==0){
+
+  	
+    
+    zvezda0.alpha = 1;
+    zlo0.destroy(true); 
+            zlo0 = 'null';
+            zvezda0.destroy(true); 
+            zvezda0 = 'null';
+             q=1; 
+               
+        }
+
+       else if (c==1){
+            
+           zvezda1.alpha = 1; 
+        
+            zlo1.destroy(true); 
+            zlo1 = 'null';
+            zvezda1.destroy(true); 
+            zvezda1 = 'null';
+            
+
+
+    q=1; 
+
+
+        }
+        else if (c==2){
+          
+            zvezda2.alpha = 1;
+           
+            zlo2.destroy(true); 
+            zlo2 = 'null';
+            zvezda2.destroy(true); 
+            zvezda2 = 'null';
+
+
+             q=1; 
+            
+            
+   
+
+       	}
+       }
+
+      else {
+      	console.log("p=",p);
+      	console.log("p==",p);
+         
+meh.angle=meh.angle-15;
+meh.x=meh.x-45;
+molniya.alpha = 1;
+setTimeout(function(){
+    console.log("down");
+meh.angle=meh.angle+15;
+meh.x=meh.x+45;
+molniya.alpha = 0;
+    ;},100);/*создание врагачрез 5 сек*/
+ if (p==13){
+	console.log("popeda");
+	/*
+	krug2 = 'null';
+      krug = 'null'; 
+
+      krug.alpha = 0;      
+  krug2.alpha = 0;
+  */
+  dell(krug2);
+  dell(krug);
+  dell(krug);
+    dell(meh);
+    dell(boy);
+
+dell(zlobos);
+dell(livzlo);
+dell(livboy);
+
+dell(livzlo2);
+dell(livboy2);
+dell(bg);
+dell(girl);
+
+
+           
+            
+            
+
+   
+
+
+
+
+	popedabg.alpha = 1;
+popedabutton.alpha = 1;
+popedalb.alpha = 1;
+}
+
+else if (p>7){
+	p++;
+	zlobos.y=zlobos.y-250;
+l++;
+ll=710-l*110;
+var line = new Phaser.Geom.Line(ll, 30, 710, 30);
+  
+    graphics.strokeLineShape(line);
+
+
+}
+
+      } 
+     
+
+      
+
+    });
+        
+
+timedEvent = this.time.delayedCall(2500, onEvent, [], this);
+        
+      
+
+          
+    }
+
+
+    function update ()
+    {
+
+
+
+
+
+
+
+if (c==7){
+	zlobos.y=zlobos.y+10;
+	var line = new Phaser.Geom.Line(ll, 30, 710, 30);
+  var graphics = this.add.graphics({ lineStyle: { width: 4, color: '#0000' } });
+    graphics.strokeLineShape(line);
+}
+        if (p==7) {
+            
+            meh.destroy(true); 
+            meh = 'null';
+            boy.destroy(true); 
+            boy = 'null';
+
+            meh  =  this.add.image(240, 668, 'meh2').setOrigin(0, 0);
+            boy = this.add.image(90, 740, 'boy2').setOrigin(0, 0);
+            zlobos = this.physics.add.sprite(90, -340, 'zlobos').setOrigin(0, 0);
+            this.physics.add.overlap(krug, zlobos, collectStar, null, this);
+            livzlo =  this.add.image(50, 25, 'livzlo').setOrigin(0, 0).setInteractive();
+
+   livboy =  this.add.image(0, 910, 'livboy').setOrigin(0, 0).setInteractive();
+
+livzlo2 =  this.add.image(35, 10, 'livzlo2').setOrigin(0, 0).setInteractive();
+
+   livboy2 =  this.add.image(33, 987, 'livboy2').setOrigin(0, 0).setInteractive();
+            c=7;
+            q=3;
+            p=8;
+
+        }
+
+        if (q==1){
+         
+                      zlo(this);
+                      q=0;
+
+        
+        }
+        if (c==0){
+            zlo0.y=zlo0.y+10;
+            zvezda0.y=zvezda0.y+10;
+            /*console.log(zlo0.y);*/
+        }
+        if (c==1){
+            zlo1.y=zlo1.y+10;
+            zlo1.x=zlo1.x-5;
+            zvezda1.y=zvezda1.y+10;
+            zvezda1.x=zvezda1.x-5;
+           /* console.log(zlo1.y);
+            console.log(zlo1.x);*/
+        }
+        if (c==2){
+            zlo2.y=zlo2.y+10;
+            zlo2.x=zlo2.x-10;
+            zvezda2.y=zvezda2.y+10;
+            zvezda2.x=zvezda2.x-10;
+            /*console.log(zlo2.y);
+            console.log(zlo2.x);*/
+        }
+        if (strelka.y < 678 && s==0) {
+            strelka.y = strelka.y + 1;
+            s=0;
+            krug2.alpha = krug2.alpha-0.1;
+            }
+        if (strelka.y == 678 && s==0) {
+            strelka.y = strelka.y - 1;
+            s=1;
+            krug2.alpha = krug2.alpha+0.1;
+            
+            }
+        if (strelka.y > 668 && s==1) {
+            strelka.y = strelka.y - 1;
+            s=1
+            krug2.alpha = krug2.alpha+0.1;
+            }
+        if (strelka.y == 668 && s==1) {
+            strelka.y = strelka.y + 1;
+            s=0;
+            krug2.alpha = krug2.alpha-0.1;
+            }
+        
+        
+       
+    }
+
+    function onEvent ()
+{
+    s=3;
+    krug.alpha = 1;
+     krug2.alpha = 0;
+    strelka.destroy(true); 
+    strelka = 'null';
+    label.destroy(true); 
+    label = 'null';
+    
+    t=1;
+zlo(this);
+   
+    
+    
+     
+}
+    
+    function zlo(a) { 
+         
+        function getRandomInRange(min, max) {   //случайное целое числопогуглил
+                           return Math.floor(Math.random() * (max - min + 1)) + min;
+                      }
+
+                      c = getRandomInRange(0, 2);
+                      console.log(c);
+                      if (c==0){
+                        zlo0 =  a.physics.add.sprite(-45, -350, 'zlo0').setOrigin(0, 0);
+                        zvezda0 = a.physics.add.sprite(-45, -350, 'zvezda0').setOrigin(0, 0);
+                        zvezda0.alpha = 0;
+                         a.physics.add.overlap(krug, zlo0, collectStar, null, a);
+                      }
+                      if (c==1){
+                        zlo1 =  a.physics.add.sprite(345, -325, 'zlo1').setOrigin(0, 0);
+                        zvezda1 = a.physics.add.sprite(345, -325, 'zvezda1').setOrigin(0, 0);
+                        zvezda1.alpha = 0;
+                       a.physics.add.overlap(krug, zlo1, collectStar, null, a);
+                      }
+                      if (c==2){
+                        zlo2 =  a.physics.add.sprite(779, -23, 'zlo2').setOrigin(0, 0);
+                        zvezda2 = a.physics.add.sprite(779, -23, 'zvezda2').setOrigin(0, 0);
+                        zvezda2.alpha = 0;
+                        a.physics.add.overlap(krug, zlo2, collectStar, null, a);
+
+                      }
+                      
+   
+     
+    
+    }
+  
+   
+     
+    
+   
+
+       function dell (x)
+{
+    x.destroy(true); 
+    x = 'null';
+}
+       function collectStar()
+{
+	 gvbg = this.add.image(0, 0, 'gvbg').setOrigin(0, 0);
+ gvlb = this.add.image(190, 265, 'gvlb').setOrigin(0, 0);
+ gvbutton = this.add.image(205, 745, 'gvbutton').setOrigin(0, 0).setInteractive();
+  gvbutton.on('pointerdown', function (pointer) {
+	console.log("huy");
+	
+	window.location.reload()
+});
+    console.log("huy");
+    
+}
+</script>
+
+</body>
+</html>
